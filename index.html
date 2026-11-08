@@ -1,0 +1,585 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Still Us Vũng Tàu</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Bricolage+Grotesque:wght@600;800&display=swap">
+<style>
+/* Layout: teal hero band, sticky tab bar, one panel per tab (lịch trình, ăn uống, ngân sách, góp ý). Sea-and-sunset palette. */
+:root {
+  --bg: #EDF4F5;
+  --surface: #FFFFFF;
+  --ink: #0F2A31;
+  --muted: #53696F;
+  --line: #D2E0E3;
+  --tint: #DDEEF0;
+  --accent: #0B6E80;
+  --accent-ink: #FFFFFF;
+  --sun: #C9531C;
+  --hero-bg: #0B3B47;
+  --hero-fg: #F2FAFB;
+  --hero-muted: #A9CBD2;
+  --s1: #0B6E80;
+  --s2: #D9702F;
+  --s3: #5B7FCB;
+  --s4: #8DA3A9;
+  --s5: #B8921B;
+  --font-display: "Bricolage Grotesque", "Be Vietnam Pro", system-ui, sans-serif;
+  --font-body: "Be Vietnam Pro", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0A1A1F;
+    --surface: #112A31;
+    --ink: #E4F0F2;
+    --muted: #93AEB5;
+    --line: #1F3C44;
+    --tint: #15393F;
+    --accent: #4FC1D3;
+    --accent-ink: #06222A;
+    --sun: #F08A55;
+    --hero-bg: #0E2F38;
+    --hero-fg: #F2FAFB;
+    --hero-muted: #9CC0C8;
+    --s1: #4FC1D3;
+    --s2: #F08A55;
+    --s3: #86A5E8;
+    --s4: #7C979E;
+    --s5: #D9B544;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0A1A1F;
+  --surface: #112A31;
+  --ink: #E4F0F2;
+  --muted: #93AEB5;
+  --line: #1F3C44;
+  --tint: #15393F;
+  --accent: #4FC1D3;
+  --accent-ink: #06222A;
+  --sun: #F08A55;
+  --hero-bg: #0E2F38;
+  --hero-fg: #F2FAFB;
+  --hero-muted: #9CC0C8;
+  --s1: #4FC1D3;
+  --s2: #F08A55;
+  --s3: #86A5E8;
+  --s4: #7C979E;
+  --s5: #D9B544;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.55;
+  -webkit-text-size-adjust: 100%;
+}
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0 0 auto;
+  height: env(safe-area-inset-top, 0px);
+  background: var(--hero-bg);
+  z-index: 10;
+}
+h1, h2, h3, p, ul, ol { margin: 0; padding: 0; }
+ul, ol { list-style: none; }
+.wrap {
+  max-width: 44rem;
+  margin-inline: auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+
+/* Hero */
+.hero { background: var(--hero-bg); color: var(--hero-fg); }
+.hero .wrap { padding-block: 28px 22px; display: grid; gap: 14px; }
+.eyebrow {
+  font-size: 12px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--hero-muted);
+}
+.hero h1 {
+  font-family: var(--font-display); font-weight: 800;
+  font-size: clamp(2.1rem, 9vw, 3.2rem); line-height: 1.02; letter-spacing: -.01em;
+  text-wrap: balance;
+}
+.hero h1 span { color: var(--sun); }
+.hero .sub { color: var(--hero-muted); max-width: 34rem; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+.chip {
+  font-size: 13px; font-weight: 500; padding: 5px 11px; border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--hero-fg) 28%, transparent);
+  color: var(--hero-fg);
+}
+.chip.count { background: var(--sun); border-color: var(--sun); color: #fff; font-weight: 700; }
+
+/* Tabs */
+.tabbar {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5;
+  background: var(--hero-bg);
+  border-bottom: 1px solid color-mix(in srgb, var(--hero-fg) 14%, transparent);
+}
+.tabs { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; }
+.tabs::-webkit-scrollbar { display: none; }
+.tab {
+  flex: 1 0 auto; appearance: none; border: 0; background: none; cursor: pointer;
+  font: inherit; font-size: 14px; font-weight: 600; color: var(--hero-muted);
+  padding: 13px 14px 11px; border-bottom: 3px solid transparent; white-space: nowrap;
+}
+.tab:hover { color: var(--hero-fg); }
+.tab[aria-selected="true"] { color: var(--hero-fg); border-bottom-color: var(--sun); }
+.tab:focus-visible { outline: 2px solid var(--hero-fg); outline-offset: -3px; border-radius: 6px; }
+
+/* Panels */
+main .wrap { padding-block: 24px 56px; }
+.panel { display: grid; gap: 22px; }
+.panel h2 {
+  font-family: var(--font-display); font-weight: 800; font-size: 1.5rem; line-height: 1.15;
+  letter-spacing: -.005em; text-wrap: balance;
+}
+.lead { color: var(--muted); max-width: 40rem; }
+.section { display: grid; gap: 12px; }
+.label {
+  font-size: 12px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--muted);
+}
+
+/* Day header + timeline */
+.day { display: flex; align-items: baseline; gap: 12px; }
+.day .num {
+  font-family: var(--font-display); font-weight: 800; font-size: 2.6rem; line-height: 1; color: var(--accent);
+}
+.day .dow { font-weight: 700; }
+.day .mon { color: var(--muted); font-size: 13px; }
+.timeline {
+  background: var(--surface); border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+}
+.timeline li {
+  display: grid; grid-template-columns: 5.6rem minmax(0, 1fr); gap: 12px; padding: 12px 14px;
+  border-top: 1px solid var(--line);
+}
+.timeline li:first-child { border-top: 0; }
+.timeline time {
+  font-size: 13px; font-weight: 600; color: var(--accent); font-variant-numeric: tabular-nums; padding-top: 1px;
+}
+.timeline .what { min-width: 0; overflow-wrap: anywhere; }
+.timeline li.key { background: var(--tint); }
+.timeline .note { display: block; color: var(--muted); font-size: 13px; margin-top: 2px; }
+
+.callout {
+  background: var(--tint); border-radius: 12px; padding: 14px 16px; display: grid; gap: 6px;
+}
+.callout strong { font-weight: 700; }
+.callout li { padding-left: 14px; position: relative; }
+.callout li::before { content: ""; position: absolute; left: 0; top: .7em; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+
+.acts { display: grid; gap: 10px; }
+.act { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; }
+.act h3 { font-size: 15px; font-weight: 700; }
+.act p { color: var(--muted); font-size: 14px; margin-top: 2px; }
+.foot { color: var(--muted); font-size: 13px; }
+
+/* Food */
+.cards { display: grid; gap: 12px; }
+.meal {
+  background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px;
+  display: grid; gap: 6px;
+}
+.meal .top { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.meal .when { font-size: 12px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); }
+.meal .cost { font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.meal h3 { font-size: 17px; font-weight: 700; line-height: 1.3; }
+.meal p { color: var(--muted); font-size: 14px; }
+.pill {
+  display: inline-block; font-size: 12px; font-weight: 600; padding: 2px 9px; border-radius: 999px;
+  background: var(--tint); color: var(--ink); width: fit-content;
+}
+.pill.open { background: color-mix(in srgb, var(--sun) 18%, transparent); color: var(--sun); }
+.sea { border: 1px solid var(--line); border-radius: 12px; background: var(--surface); padding: 16px; display: grid; gap: 10px; }
+.sea h3 { font-family: var(--font-display); font-size: 1.15rem; font-weight: 800; }
+.steps { display: grid; gap: 8px; }
+.steps li { display: grid; grid-template-columns: 4.2rem minmax(0, 1fr); gap: 10px; font-size: 14px; }
+.steps b { font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; }
+
+/* Budget */
+.who { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: var(--surface); }
+.seg button {
+  appearance: none; border: 0; background: none; font: inherit; font-weight: 600; font-size: 14px;
+  color: var(--muted); padding: 8px 16px; cursor: pointer; min-width: 5.5rem;
+}
+.seg button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); }
+.seg button:focus-visible { outline: 2px solid var(--ink); outline-offset: -2px; }
+.big {
+  background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 18px 16px;
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr)); gap: 16px;
+}
+.big .k { font-size: 12px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.big .v {
+  font-family: var(--font-display); font-weight: 800; font-size: clamp(1.7rem, 7vw, 2.2rem); line-height: 1.1;
+  font-variant-numeric: tabular-nums; margin-top: 2px; overflow-wrap: anywhere;
+}
+.big .v.pp { color: var(--accent); }
+.big .s { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.stack { display: flex; height: 16px; border-radius: 8px; overflow: hidden; gap: 2px; }
+.stack i { display: block; height: 100%; min-width: 4px; }
+.legend { display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: 8px 16px; }
+.legend li { display: grid; grid-template-columns: 12px minmax(0, 1fr) auto; gap: 8px; align-items: center; font-size: 14px; }
+.legend .sw { width: 12px; height: 12px; border-radius: 3px; }
+.legend .amt { font-variant-numeric: tabular-nums; color: var(--muted); }
+.lines { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+.lines li { padding: 11px 14px; border-top: 1px solid var(--line); display: grid; gap: 6px; }
+.lines li:first-child { border-top: 0; }
+.lines .row { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; }
+.lines .row span:first-child { min-width: 0; overflow-wrap: anywhere; }
+.lines .row span:last-child { font-variant-numeric: tabular-nums; font-weight: 600; white-space: nowrap; }
+.bar { height: 5px; border-radius: 3px; background: var(--tint); overflow: hidden; }
+.bar i { display: block; height: 100%; background: var(--accent); border-radius: 3px; }
+.lines .total { background: var(--tint); }
+.lines .total .row span { font-weight: 700; }
+
+/* Feedback */
+.qs { counter-reset: q; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+.qs li { counter-increment: q; display: grid; grid-template-columns: 1.6rem minmax(0, 1fr); gap: 10px; padding: 13px 14px; border-top: 1px solid var(--line); }
+.qs li:first-child { border-top: 0; }
+.qs li::before { content: counter(q); font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; }
+.btn {
+  appearance: none; border: 0; cursor: pointer; font: inherit; font-weight: 700; font-size: 14px;
+  background: var(--accent); color: var(--accent-ink); padding: 11px 18px; border-radius: 10px; width: fit-content;
+}
+.btn:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.sign { border-top: 1px solid var(--line); padding-top: 18px; display: grid; gap: 6px; color: var(--muted); font-size: 14px; }
+.sign b { font-family: var(--font-display); font-size: 1.1rem; color: var(--ink); letter-spacing: .02em; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .panel { animation: rise .25s ease-out; }
+  @keyframes rise { from { opacity: .0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+}
+</style>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow">Vũng Tàu Trip · 2 ngày 1 đêm</p>
+    <h1>Still Us <span>2016–2026</span></h1>
+    <p class="sub">10 năm một chặng đường, vẫn còn chúng ta. Tụi mình từ quê lên Sài Gòn năm 2016, giờ gặp lại để ăn uống, vui chơi và ôn chuyện cũ.</p>
+    <div class="chips">
+      <span class="chip">14–15/11/2026</span>
+      <span class="chip">6–7 người</span>
+      <span class="chip">Xe của Mỹ</span>
+      <span class="chip">Homestay 1 đêm</span>
+      <span class="chip count" id="countdown">14–15/11</span>
+    </div>
+  </div>
+</header>
+
+<div class="tabbar">
+  <div class="wrap">
+    <div class="tabs" role="tablist" aria-label="Nội dung chuyến đi">
+      <button class="tab" role="tab" id="t-lich-trinh" data-tab="lich-trinh" aria-controls="p-lich-trinh" aria-selected="true">Lịch trình</button>
+      <button class="tab" role="tab" id="t-an-uong" data-tab="an-uong" aria-controls="p-an-uong" aria-selected="false">Ăn uống</button>
+      <button class="tab" role="tab" id="t-ngan-sach" data-tab="ngan-sach" aria-controls="p-ngan-sach" aria-selected="false">Ngân sách</button>
+      <button class="tab" role="tab" id="t-gop-y" data-tab="gop-y" aria-controls="p-gop-y" aria-selected="false">Góp ý</button>
+    </div>
+  </div>
+</div>
+
+<main>
+  <div class="wrap">
+
+    <!-- LỊCH TRÌNH -->
+    <section class="panel" id="p-lich-trinh" role="tabpanel" aria-labelledby="t-lich-trinh">
+      <div class="section">
+        <div class="day"><span class="num">14</span><div><div class="dow">Thứ Bảy</div><div class="mon">Tháng 11 · Ngày đi</div></div></div>
+        <ul class="timeline">
+          <li><time>13:00</time><div class="what">Xuất phát từ Sài Gòn</div></li>
+          <li><time>15:30–16:00</time><div class="what">Đến Vũng Tàu, nhận homestay</div></li>
+          <li><time>16:00–18:00</time><div class="what">Nghỉ ngơi, đi biển, đi tháp Tam Thắng hoặc vui chơi tự do<span class="note">Có thể đi biển, đi dạo vào khung giờ này hoặc sáng hôm sau.</span></div></li>
+          <li><time>18:00–19:00</time><div class="what">Chuẩn bị BBQ, bánh kem, trang trí</div></li>
+          <li class="key"><time>19:00–20:30</time><div class="what">Ăn BBQ hải sản, thổi nến và chơi trò chơi</div></li>
+          <li><time>20:30–21:30</time><div class="what">Karaoke, nghe nhạc</div></li>
+          <li><time>21:30 trở đi</time><div class="what">Ngồi lại trò chuyện, ôn chuyện 10 năm qua</div></li>
+        </ul>
+      </div>
+
+      <div class="callout">
+        <strong>Tập trung và đón nhau</strong>
+        <ul>
+          <li>Sang và Mỹ chủ động sắp xếp điểm xuất phát.</li>
+          <li>Nga, Sang, Lanh, Lợi ở khu vực Thủ Đức/Quận 9 sẽ tìm một điểm tập trung có chỗ đậu xe gần Xa lộ Hà Nội.</li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <div class="day"><span class="num">15</span><div><div class="dow">Chủ nhật</div><div class="mon">Tháng 11 · Ngày về</div></div></div>
+        <ul class="timeline">
+          <li><time>08:30</time><div class="what">Ăn sáng món địa phương, dự kiến hủ tiếu mực</div></li>
+          <li><time>08:30–10:00</time><div class="what">Đi cà phê, dự kiến KATINAT hoặc quán view đẹp</div></li>
+          <li><time>10:00–11:00</time><div class="what">Về homestay thu dọn hành lý</div></li>
+          <li><time>11:00–11:30</time><div class="what">Trả phòng</div></li>
+          <li><time>11:30–12:30</time><div class="what">Ăn trưa cơm niêu</div></li>
+          <li class="key"><time>13:00</time><div class="what">Xuất phát về Sài Gòn</div></li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <p class="label">Tối thứ Bảy, phần chính của chuyến đi</p>
+        <div class="acts">
+          <div class="act"><h3>BBQ hải sản</h3><p>Hải sản Lý Sơn, đồ ăn phụ, bia và nước. Cả nhóm cùng chuẩn bị cho vui.</p></div>
+          <div class="act"><h3>Bánh kem</h3><p>Nội dung “10 YEARS – 2016–2026”.</p></div>
+          <div class="act"><h3>Chụp hình</h3><p>Chuẩn bị thêm banner nhỏ để chụp hình kỷ niệm.</p></div>
+          <div class="act"><h3>Trò chơi</h3><p>Chuẩn bị vài trò chơi để mọi người cùng tham gia.</p></div>
+          <div class="act"><h3>Ôn lại chuyện cũ</h3><p>Mỗi người kể một chút về những ngày đầu lên Sài Gòn, 10 năm qua thay đổi thế nào, có gì vui, có gì đáng nhớ.</p></div>
+        </div>
+        <p class="foot">Không cần làm gì quá cầu kỳ, chủ yếu là có thời gian ngồi với nhau và nói chuyện. Lịch trình có thể thay đổi tùy vị trí homestay và tình hình thực tế.</p>
+      </div>
+    </section>
+
+    <!-- ĂN UỐNG -->
+    <section class="panel" id="p-an-uong" role="tabpanel" aria-labelledby="t-an-uong" hidden>
+      <div class="section">
+        <h2>Ăn uống dự kiến</h2>
+        <p class="lead">Bốn bữa chính trong chuyến đi. Phần chưa chốt được đánh dấu để mọi người góp ý.</p>
+      </div>
+
+      <div class="cards">
+        <article class="meal">
+          <div class="top"><span class="when">Tối 14/11 · 19:00</span><span class="cost">3.100.000đ cả nhóm</span></div>
+          <h3>BBQ hải sản tại homestay</h3>
+          <p>Hải sản Lý Sơn, đồ ăn phụ BBQ, bia, nước, đá. Cả nhóm cùng nướng và chuẩn bị.</p>
+          <span class="pill open">Cần chốt loại và số lượng hải sản</span>
+        </article>
+        <article class="meal">
+          <div class="top"><span class="when">Sáng 15/11 · 08:30</span><span class="cost">360.000đ cả nhóm</span></div>
+          <h3>Hủ tiếu mực hoặc món địa phương</h3>
+          <p>Ăn sáng nhẹ nhàng trước khi đi cà phê.</p>
+          <span class="pill open">Chưa chốt món và quán</span>
+        </article>
+        <article class="meal">
+          <div class="top"><span class="when">Giữa buổi · 08:30–10:00</span><span class="cost">420.000đ cả nhóm</span></div>
+          <h3>Cà phê KATINAT hoặc quán view đẹp</h3>
+          <p>Ngồi cà phê, chụp hình trước khi về homestay thu dọn.</p>
+          <span class="pill open">KATINAT hay tìm quán view đẹp hơn</span>
+        </article>
+        <article class="meal">
+          <div class="top"><span class="when">Trưa 15/11 · 11:30–12:30</span><span class="cost">500.000đ cả nhóm</span></div>
+          <h3>Cơm niêu tại Vũng Tàu</h3>
+          <p>Bữa cuối trước khi xuất phát về Sài Gòn lúc 13:00.</p>
+          <span class="pill open">Chưa chọn quán</span>
+        </article>
+      </div>
+
+      <div class="sea">
+        <h3>Hải sản Lý Sơn</h3>
+        <p>Dự kiến khoảng 2–3 triệu. Cần chốt trước loại và số lượng để chuẩn bị.</p>
+        <p>Má của Sang sẽ giúp mua và gửi. Ngoài quê thứ Hai, thứ Ba, thứ Tư trời động nên dự định gửi vào thứ Năm hoặc thứ Sáu. Nếu thời tiết không cho phép sẽ tính phương án khác.</p>
+        <ul class="steps">
+          <li><b>T2–T4</b><span>Trời động, chưa gửi được (9–11/11)</span></li>
+          <li><b>T5–T6</b><span>Dự định mua và gửi hải sản (12–13/11)</span></li>
+          <li><b>T7</b><span>BBQ tại homestay (14/11)</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- NGÂN SÁCH -->
+    <section class="panel" id="p-ngan-sach" role="tabpanel" aria-labelledby="t-ngan-sach" hidden>
+      <div class="section">
+        <h2>Ngân sách dự kiến</h2>
+        <p class="lead">Chi phí hiện tại chỉ là dự kiến, chưa phải giá chốt. Chọn số người để xem mức đóng bình quân.</p>
+      </div>
+
+      <div class="who">
+        <span class="label">Số người</span>
+        <div class="seg" role="group" aria-label="Số người đi">
+          <button type="button" id="n6" data-n="6" aria-pressed="false">6 người</button>
+          <button type="button" id="n7" data-n="7" aria-pressed="true">7 người</button>
+        </div>
+      </div>
+
+      <div class="big" aria-live="polite">
+        <div><div class="k">Mỗi người đóng</div><div class="v pp" id="pp">1.650.000đ</div><div class="s" id="pp-note">Làm tròn đến 10.000đ</div></div>
+        <div><div class="k">Tổng chi phí</div><div class="v" id="total">11.530.000đ</div><div class="s">11 hạng mục</div></div>
+      </div>
+
+      <div class="section">
+        <p class="label">Tiền đi vào đâu</p>
+        <div class="stack" id="stack" role="img" aria-label="Tỷ trọng chi phí theo nhóm"></div>
+        <ul class="legend" id="legend"></ul>
+      </div>
+
+      <div class="section">
+        <p class="label">Chi tiết từng hạng mục</p>
+        <ul class="lines" id="lines"></ul>
+      </div>
+    </section>
+
+    <!-- GÓP Ý -->
+    <section class="panel" id="p-gop-y" role="tabpanel" aria-labelledby="t-gop-y" hidden>
+      <div class="section">
+        <h2>Mọi người góp ý giúp</h2>
+        <p class="lead">Sáu nội dung cần cả nhóm thống nhất trước khi chốt. Chép danh sách này gửi vào nhóm chat để mọi người trả lời.</p>
+      </div>
+      <ol class="qs">
+        <li>Lịch trình như vậy có ổn không?</li>
+        <li>Phương án tập trung và đón mọi người có thuận tiện không?</li>
+        <li>Ăn sáng hủ tiếu mực hay món nào khác?</li>
+        <li>Cà phê KATINAT hay tìm quán có view đẹp hơn?</li>
+        <li>Cơm niêu trưa Chủ nhật chọn quán nào?</li>
+        <li>Mức đóng khoảng 1,650 triệu/người có ổn với mọi người không?</li>
+      </ol>
+      <button class="btn" type="button" id="copy">Chép danh sách câu hỏi</button>
+      <p class="foot" id="copy-msg" aria-live="polite"></p>
+
+      <div class="sign">
+        <b>STILL US – 2016–2026</b>
+        <p>2016: Từ những miền quê khác nhau, tụi mình gặp nhau ở Sài Gòn.</p>
+        <p>2026: Mỗi người một cuộc sống, một công việc, một hướng đi. Nhưng vẫn còn dịp để tụ tập cùng nhau như ngày nào.</p>
+        <p>10 năm rồi, hy vọng những lần gặp nhau như thế này vẫn còn tiếp tục.</p>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<script>
+(function () {
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('.tab'));
+  var panels = {};
+  tabs.forEach(function (t) { panels[t.dataset.tab] = document.getElementById('p-' + t.dataset.tab); });
+
+  function show(id, scroll) {
+    if (!panels[id]) id = 'lich-trinh';
+    tabs.forEach(function (t) {
+      var on = t.dataset.tab === id;
+      t.setAttribute('aria-selected', on ? 'true' : 'false');
+      t.tabIndex = on ? 0 : -1;
+      panels[t.dataset.tab].hidden = !on;
+    });
+    if (scroll) {
+      var bar = document.querySelector('.tabbar');
+      var top = bar.getBoundingClientRect().top + window.scrollY;
+      if (window.scrollY > top) window.scrollTo(0, top);
+    }
+  }
+  tabs.forEach(function (t, i) {
+    t.addEventListener('click', function () {
+      show(t.dataset.tab, true);
+      try { history.replaceState(null, '', '#' + t.dataset.tab); } catch (e) { location.hash = t.dataset.tab; }
+    });
+    t.addEventListener('keydown', function (e) {
+      var d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+      if (!d) return;
+      var n = tabs[(i + d + tabs.length) % tabs.length];
+      n.focus(); n.click();
+    });
+  });
+  window.addEventListener('hashchange', function () { show(location.hash.slice(1), false); });
+  show(location.hash.slice(1), false);
+
+  /* Đếm ngược */
+  var cd = document.getElementById('countdown');
+  var now = new Date();
+  var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  var days = Math.round((new Date(2026, 10, 14) - today) / 86400000);
+  if (days > 0) cd.textContent = 'Còn ' + days + ' ngày';
+  else if (days === 0) cd.textContent = 'Hôm nay lên đường';
+  else if (days === -1) cd.textContent = 'Đang diễn ra';
+  else cd.textContent = '14–15/11';
+
+  /* Ngân sách */
+  function vnd(n) { return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, '.') + 'đ'; }
+  var items = [
+    ['Homestay', 3000000, 'stay'],
+    ['Hải sản Lý Sơn', 2500000, 'food'],
+    ['Đồ ăn phụ BBQ', 900000, 'food'],
+    ['Bia, nước, đá', 600000, 'food'],
+    ['Bánh kem, trang trí', 500000, 'cake'],
+    ['Ăn sáng', 360000, 'food'],
+    ['Cà phê', 420000, 'food'],
+    ['Cơm niêu', 500000, 'food'],
+    ['Ăn uống phát sinh', 750000, 'food'],
+    ['Dự phòng', 1000000, 'spare'],
+    ['Chi phí di chuyển', 1000000, 'move']
+  ];
+  var groups = [
+    ['food', 'Ăn uống', 'var(--s1)'],
+    ['stay', 'Lưu trú', 'var(--s2)'],
+    ['move', 'Di chuyển', 'var(--s3)'],
+    ['spare', 'Dự phòng', 'var(--s4)'],
+    ['cake', 'Bánh kem, trang trí', 'var(--s5)']
+  ];
+  var total = items.reduce(function (s, r) { return s + r[1]; }, 0);
+  var max = Math.max.apply(null, items.map(function (r) { return r[1]; }));
+
+  document.getElementById('total').textContent = vnd(total);
+
+  var lines = document.getElementById('lines');
+  items.forEach(function (r) {
+    var li = document.createElement('li');
+    li.innerHTML = '<div class="row"><span></span><span></span></div><div class="bar"><i></i></div>';
+    li.querySelector('span:first-child').textContent = r[0];
+    li.querySelector('span:last-child').textContent = vnd(r[1]);
+    li.querySelector('i').style.width = (r[1] / max * 100).toFixed(1) + '%';
+    lines.appendChild(li);
+  });
+  var tl = document.createElement('li');
+  tl.className = 'total';
+  tl.innerHTML = '<div class="row"><span>Tổng</span><span></span></div>';
+  tl.querySelector('span:last-child').textContent = vnd(total);
+  lines.appendChild(tl);
+
+  var stack = document.getElementById('stack');
+  var legend = document.getElementById('legend');
+  groups.forEach(function (g) {
+    var sum = items.filter(function (r) { return r[2] === g[0]; }).reduce(function (s, r) { return s + r[1]; }, 0);
+    var seg = document.createElement('i');
+    seg.style.width = (sum / total * 100).toFixed(2) + '%';
+    seg.style.background = g[2];
+    seg.title = g[1] + ': ' + vnd(sum);
+    stack.appendChild(seg);
+    var li = document.createElement('li');
+    li.innerHTML = '<span class="sw"></span><span></span><span class="amt"></span>';
+    li.querySelector('.sw').style.background = g[2];
+    li.children[1].textContent = g[1];
+    li.querySelector('.amt').textContent = vnd(sum) + ' · ' + Math.round(sum / total * 100) + '%';
+    legend.appendChild(li);
+  });
+
+  function setPeople(n) {
+    var exact = total / n;
+    var rounded = Math.round(exact / 10000) * 10000;
+    document.getElementById('pp').textContent = vnd(rounded);
+    document.getElementById('pp-note').textContent = 'Chia ' + n + ' người, làm tròn đến 10.000đ';
+    [6, 7].forEach(function (k) {
+      document.getElementById('n' + k).setAttribute('aria-pressed', k === n ? 'true' : 'false');
+    });
+  }
+  document.querySelectorAll('.seg button').forEach(function (b) {
+    b.addEventListener('click', function () { setPeople(+b.dataset.n); });
+  });
+  setPeople(7);
+
+  /* Chép câu hỏi */
+  var qText = 'Góp ý chuyến Vũng Tàu 14–15/11 (Still Us 2016–2026):\n' +
+    Array.prototype.map.call(document.querySelectorAll('.qs li'), function (li, i) { return (i + 1) + '. ' + li.textContent; }).join('\n');
+  var msg = document.getElementById('copy-msg');
+  document.getElementById('copy').addEventListener('click', function () {
+    function fallback() {
+      var ta = document.createElement('textarea');
+      ta.value = qText; ta.setAttribute('readonly', '');
+      ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      var ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) {}
+      document.body.removeChild(ta);
+      msg.textContent = ok ? 'Đã chép danh sách câu hỏi.' : 'Không chép được, hãy chọn và chép thủ công.';
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(qText).then(function () { msg.textContent = 'Đã chép danh sách câu hỏi.'; }, fallback);
+    } else { fallback(); }
+  });
+})();
+</script>
+
+</body></html>
