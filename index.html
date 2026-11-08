@@ -1,8 +1,18 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Still Us Vũng Tàu</title>
-<meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Bricolage+Grotesque:wght@600;800&display=swap">
 <style>
+/* Reset (bản độc lập) */
+:root { color-scheme: light; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; }
+img { max-width: 100%; }
+[hidden] { display: none !important; }
+
 /* Layout: teal hero band, sticky tab bar, one panel per tab (lịch trình, ăn uống, ngân sách, góp ý). Sea-and-sunset palette. */
 :root {
   --bg: #EDF4F5;
@@ -253,11 +263,37 @@ main .wrap { padding-block: 24px 56px; }
 .sign { border-top: 1px solid var(--line); padding-top: 18px; display: grid; gap: 6px; color: var(--muted); font-size: 14px; }
 .sign b { font-family: var(--font-display); font-size: 1.1rem; color: var(--ink); letter-spacing: .02em; }
 
+/* Homestay gallery */
+.gal-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(9.5rem, 1fr)); gap: 8px; }
+.gallery button {
+  appearance: none; padding: 0; border: 0; cursor: pointer; display: block; width: 100%;
+  aspect-ratio: 4 / 3; border-radius: 10px; overflow: hidden; background: var(--tint);
+}
+.gallery button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.gallery img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.lb {
+  position: fixed; inset: 0; z-index: 20; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; gap: 10px;
+  background: rgba(4, 14, 17, .95); color: #F2FAFB;
+  padding: calc(env(safe-area-inset-top, 0px) + 12px) max(16px, env(safe-area-inset-right, 0px)) calc(env(safe-area-inset-bottom, 0px) + 12px) max(16px, env(safe-area-inset-left, 0px));
+}
+.lb-top, .lb-nav { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.lb-top span { font-size: 13px; font-variant-numeric: tabular-nums; color: #A9CBD2; }
+.lb button {
+  appearance: none; font: inherit; font-weight: 600; font-size: 14px; cursor: pointer; padding: 10px 16px; border-radius: 10px;
+  border: 1px solid rgba(242, 250, 251, .35); background: rgba(242, 250, 251, .08); color: #F2FAFB;
+}
+.lb button:focus-visible { outline: 2px solid #F2FAFB; outline-offset: 2px; }
+.lb-stage { min-height: 0; display: flex; align-items: center; justify-content: center; }
+.lb-stage img { max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 6px; }
+
 @media (prefers-reduced-motion: no-preference) {
   .panel { animation: rise .25s ease-out; }
   @keyframes rise { from { opacity: .0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 }
 </style>
+</head>
+<body>
 
 <header class="hero">
   <div class="wrap">
@@ -278,6 +314,7 @@ main .wrap { padding-block: 24px 56px; }
   <div class="wrap">
     <div class="tabs" role="tablist" aria-label="Nội dung chuyến đi">
       <button class="tab" role="tab" id="t-lich-trinh" data-tab="lich-trinh" aria-controls="p-lich-trinh" aria-selected="true">Lịch trình</button>
+      <button class="tab" role="tab" id="t-homestay" data-tab="homestay" aria-controls="p-homestay" aria-selected="false">Homestay</button>
       <button class="tab" role="tab" id="t-an-uong" data-tab="an-uong" aria-controls="p-an-uong" aria-selected="false">Ăn uống</button>
       <button class="tab" role="tab" id="t-ngan-sach" data-tab="ngan-sach" aria-controls="p-ngan-sach" aria-selected="false">Ngân sách</button>
       <button class="tab" role="tab" id="t-gop-y" data-tab="gop-y" aria-controls="p-gop-y" aria-selected="false">Góp ý</button>
@@ -334,6 +371,16 @@ main .wrap { padding-block: 24px 56px; }
         </div>
         <p class="foot">Không cần làm gì quá cầu kỳ, chủ yếu là có thời gian ngồi với nhau và nói chuyện. Lịch trình có thể thay đổi tùy vị trí homestay và tình hình thực tế.</p>
       </div>
+    </section>
+
+    <!-- HOMESTAY -->
+    <section class="panel" id="p-homestay" role="tabpanel" aria-labelledby="t-homestay" hidden>
+      <div class="section">
+        <div class="gal-head"><h2>Homestay đã chốt</h2><span class="foot" id="gal-count"></span></div>
+        <p class="lead">Bấm vào hình để xem lớn, vuốt trái hoặc phải để chuyển hình.</p>
+      </div>
+      <div class="gallery" id="gallery"></div>
+      <p class="foot" id="gal-empty" hidden>Hình homestay sẽ được cập nhật sớm.</p>
     </section>
 
     <!-- ĂN UỐNG -->
@@ -442,7 +489,40 @@ main .wrap { padding-block: 24px 56px; }
   </div>
 </main>
 
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Xem hình homestay" hidden>
+  <div class="lb-top"><span id="lb-num"></span><button type="button" id="lb-close">Đóng</button></div>
+  <div class="lb-stage" id="lb-stage"><img id="lb-img" alt="Hình homestay"></div>
+  <div class="lb-nav"><button type="button" id="lb-prev">‹ Trước</button><button type="button" id="lb-next">Sau ›</button></div>
+</div>
+
 <script>
+/* ===== HÌNH HOMESTAY =====
+   Trang web tĩnh không tự liệt kê được thư mục, nên hãy ghi tên các file trong
+   images/homestay vào danh sách bên dưới (đúng chữ hoa, chữ thường và đuôi file).
+   Thứ tự trong danh sách cũng là thứ tự hiển thị. */
+var HOMESTAY_DIR = 'images/homestay/';
+var HOMESTAY_IMAGES = [
+  '1LE6Kr4Y6An9Wttwany6rP4Rn9KweJaN5aZSiMwsuY3CiXEUK7WrvAyiSMOU2tA.mp4',
+  '1wupuku51ps65yqj4jbri1vqdiwaf5kqosmzyaxlokkakii4lxhniqidsyqj7xl16qu1.jpg',
+  '1wupuku51ptolus6idovmfabmufgncciy1epakiagtvcesh5bb2mqz4krhx1tzebcpd2.jpg',
+  '1wupuku51pugbrjtw8r91jjapgl2z35khz2xhotl9ep0amewfiodqa2jpyvhimyd3of3.jpg',
+  '1wupuku51pw0ieqc5kg7jrrgavzwwbtqdgi80m1ahuvohg6ypkcvyfwczddisar6tah4.jpg',
+  '1wupuku51px4e2v9sp7qbkspmlddpjackubmqu1fvt5ojugjqylrsnphwfnc8uzwu215.jpg',
+  '1wupuku51pyv57qva1s44pemwkkfflwuvb37nuv61p8k2x1ugsae0mdij3ackhdoss16.jpg',
+  '1wupuku51pzktlirhmq2swl3p1cyirvk8hfe3ngwll1uxneabflyxw5fgsxdptvh19d7.jpg',
+  '1wupuku51q1pezr2ppm0imwbpzrruqe1wrffmgghpkgxa0jmoph9mwr3qndm8xkewo38.jpg',
+  '1wupuku51q2qievjwkyejj2hokeajc4g1ppsgzrojtsosaplpg3yrxnyi1sxhfo1uju9.jpg',
+  '1wupuku51q3lqjxnqopxfkfabrtujyavs3du2unkbhg9vtt864vnz4ajciy63rrxkea10.jpg',
+  '1wupuku51q4wvyaxwiwviaqvwdawfyx7ladkyt3sgivlgzjegghtgpuj09w1zftq2xx11.jpg',
+  '1wupuku51q6s5ckffm8z6wundkyvauj0elgkyhtufawdcnxqk0iukxybza0gfl0cj6r12.jpg',
+  '1wupuku51q7rvqb5c6qrwyak0wgd48vy4po5fkcdczzucgpv7fy5moy3bxr4ic4iu6h13.jpg',
+  '1wupuku51q9e4mherskvvcs8bhff8zyp1p4eeg2dzz1m3ucqq7rr4lyr1jrjlcs7nkn14.jpg',
+  '1wupuku51qbrrxl5agos5s9mvwj6gvptpbh9oj5aorenzyie0c7iysfbaguotcleiqb15.jpg',
+  '1wupuku51qc035oddywruj88tzbx5k90eimgeokbzv7sg4sriyek9awwtlni42zoqz616.jpg',
+  '1WUpuku52pk1ne8PASv0j13qHWTEbCjEMy8kahiaP54yZLjNzDwtu7dz85vaRZKj4wD.jpg',
+  '2aOboRB7Bf0XSJfUnGlasRtKEcxxGwsO12arcC0m.jpg'
+];
+
 (function () {
   var tabs = Array.prototype.slice.call(document.querySelectorAll('.tab'));
   var panels = {};
@@ -476,6 +556,70 @@ main .wrap { padding-block: 24px 56px; }
   });
   window.addEventListener('hashchange', function () { show(location.hash.slice(1), false); });
   show(location.hash.slice(1), false);
+
+  /* Hình homestay */
+  var gal = document.getElementById('gallery');
+  var galEmpty = document.getElementById('gal-empty');
+  var galCount = document.getElementById('gal-count');
+  var lb = document.getElementById('lb');
+  var lbImg = document.getElementById('lb-img');
+  var lbNum = document.getElementById('lb-num');
+  var current = 0;
+
+  function srcs() {
+    return Array.prototype.map.call(gal.querySelectorAll('img'), function (im) { return im.getAttribute('src'); });
+  }
+  function refreshCount() {
+    var n = gal.children.length;
+    galCount.textContent = n ? n + ' hình' : '';
+    galEmpty.hidden = n > 0;
+  }
+  function render() {
+    var list = srcs();
+    if (!list.length) { closeLb(); return; }
+    current = (current + list.length) % list.length;
+    lbImg.src = list[current];
+    lbNum.textContent = (current + 1) + ' / ' + list.length;
+  }
+  function openLb(i) {
+    current = i; lb.hidden = false; document.body.style.overflow = 'hidden'; render();
+    document.getElementById('lb-close').focus();
+  }
+  function closeLb() {
+    lb.hidden = true; lbImg.removeAttribute('src'); document.body.style.overflow = '';
+  }
+  HOMESTAY_IMAGES.forEach(function (name, i) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.setAttribute('aria-label', 'Xem hình homestay ' + (i + 1));
+    var im = document.createElement('img');
+    im.alt = 'Homestay, hình ' + (i + 1);
+    im.loading = 'lazy'; im.decoding = 'async';
+    im.src = HOMESTAY_DIR + encodeURIComponent(name);
+    im.addEventListener('error', function () { b.remove(); refreshCount(); });
+    b.appendChild(im);
+    b.addEventListener('click', function () { openLb(Array.prototype.indexOf.call(gal.children, b)); });
+    gal.appendChild(b);
+  });
+  refreshCount();
+
+  document.getElementById('lb-close').addEventListener('click', closeLb);
+  document.getElementById('lb-prev').addEventListener('click', function () { current -= 1; render(); });
+  document.getElementById('lb-next').addEventListener('click', function () { current += 1; render(); });
+  document.getElementById('lb-stage').addEventListener('click', function (e) { if (e.target === this) closeLb(); });
+  document.addEventListener('keydown', function (e) {
+    if (lb.hidden) return;
+    if (e.key === 'Escape') closeLb();
+    else if (e.key === 'ArrowLeft') { current -= 1; render(); }
+    else if (e.key === 'ArrowRight') { current += 1; render(); }
+  });
+  var x0 = null;
+  lb.addEventListener('touchstart', function (e) { x0 = e.touches[0].clientX; }, { passive: true });
+  lb.addEventListener('touchend', function (e) {
+    if (x0 === null) return;
+    var dx = e.changedTouches[0].clientX - x0; x0 = null;
+    if (Math.abs(dx) > 50) { current += dx < 0 ? 1 : -1; render(); }
+  });
 
   /* Đếm ngược */
   var cd = document.getElementById('countdown');
@@ -581,5 +725,5 @@ main .wrap { padding-block: 24px 56px; }
   });
 })();
 </script>
-
-</body></html>
+</body>
+</html>
